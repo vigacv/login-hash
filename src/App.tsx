@@ -10,7 +10,7 @@ const stackStyles: Partial<IStackStyles> = {
   root: {
     margin: '0 auto',
     color: '#605e5c',
-    backgroundColor: '#faf9f8'
+    backgroundColor: '#faf9f8',
   },
 };
 

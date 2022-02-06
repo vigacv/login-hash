@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.login-text-field{
+  width: 200px;
+}
+
+@media (min-width: 425px) {
+  .login-text-field{
+    width: 300px;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-text-field{
+    width: 400px;
+  }
+}
