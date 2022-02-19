@@ -8,7 +8,6 @@ import { Alert, Snackbar } from "@mui/material";
 
 const stackStyles: Partial<IStackStyles> = {
     root: {
-        margin: '0 auto',
         padding: '30px 30px',
         boxShadow: DefaultEffects.elevation8,
         backgroundColor: 'white'
@@ -103,7 +102,8 @@ export class LoginComponent extends React.Component<{}, LoginState> {
 
     render() {
         return (
-            <Stack styles={stackStyles} tokens={{ childrenGap: 30 }}>
+            <div style={{margin: '0 auto'}}>
+                <Stack styles={stackStyles} tokens={{ childrenGap: 30 }}>
                 <Stack>
                     <Text variant="xxLargePlus">
                         Login
@@ -146,6 +146,7 @@ export class LoginComponent extends React.Component<{}, LoginState> {
                     </Alert>
                 </Snackbar>
             </Stack>
+            </div>
         )
     }
 }
