@@ -183,8 +183,16 @@ function s0(x: Array<string>) { // función sigma s0
     return xor(xor(circShift(x, 7), circShift(x, 18)), rightShift(x, 3));
 }
 
-function s1(x: Array<string>) { // función sigma s0
+function s1(x: Array<string>) { // función sigma s1
     return xor(xor(circShift(x, 17), circShift(x, 19)), rightShift(x, 10));
+}
+
+function S0(x: Array<string>) { // función sumatorio S0
+    return xor(xor(circShift(x, 2), circShift(x, 13)), circShift(x, 22));
+}
+
+function S1(x: Array<string>) { // función sumatorio S1
+    return xor(xor(circShift(x, 6), circShift(x, 11)), circShift(x, 25));
 }
 
 function sumaMod2_32(arr1: Array<string>, arr2: Array<string>) {
@@ -202,8 +210,17 @@ function maj(arr1: Array<string>, arr2: Array<string>, arr3: Array<string>) {
     return xor(xor(and(arr1, arr2), and(arr1, arr3)), and(arr2, arr3))
 }
 
-console.log(circShift('11010101'.split(''), 2))
-console.log(rightShift('11010101'.split(''), 2))
+function zeros(filas: number, columnas: number) {
+    var a = [] as string[][]
+    for (let i = 0; i < filas; i++) {
+        var b = [] as string[]
+        for (let j = 0; j < columnas; j++) {
+            b.push('0')
+        }
+        a.push(b)
+    }
+    return a
+}
 
 function hash(password: string) {
     // CONVERTIMOS CADENA PASSWORD A BINARIO
@@ -220,29 +237,34 @@ function hash(password: string) {
 
     // AÑADIMOS LA LONGITUD DEL MENSAJE EXPRESADO EN 64 BITS
     newBinaryVector = newBinaryVector.concat(intToBinary(password.length*8, 64))
-    //console.log('long64', intToBinary(password.length, 64)) // Con esto, ya tenemos un arreglo binario de longitud múltiplo de 512
+    // Con esto, ya tenemos un arreglo binario de longitud múltiplo de 512
     
     // DIVIDIMOS EL MENSAJE EN N PIEZAS DE 512 BITS
     let splittedBinaryVector = splitBinaryVector(newBinaryVector, 512)
-
+    
     // LAZO PRINCIPAL
     for (let i = 0; i < splittedBinaryVector.length; i++){
         // arreglo "w" de 64 filas de 32 bits inicializado en ceros.
         var w = [] as string[][]
+        // llenando con ceros
+        w = zeros(64, 32)
         // para las 16 primeras filas, repartir los 512 bits de la primera pieza
-        splitBinaryVector(splittedBinaryVector[i], 32).forEach(element => {
+        var p = -1;
+        for (let n = 0; n < 16; n++) {
+            for (let m = 0; m < 32; m++) {
+                p++
+                w[n][m] = splittedBinaryVector[i][p]
+            }
+        }
+
+        /*splitBinaryVector(splittedBinaryVector[i], 32).forEach(element => {
             w.push(element)
-        });
+        });*/
         // para las siguientes 48 filas (n = 17..64): w[n] = s1(w[n-2]) + w[n-7] + s0(w[n-15]) + w[n-16]
         // donde la suma "+" es en realidad suma de módulo 2^32:
         // w(n,: ) = sumaMod2_32(sumaMod2_32( sumaMod2_32( s1(w(n - 2,: ) ), w(n - 7,: ) ), s0(w(n - 15,: ))), w(n - 16,: ))
         for (let n = 16; n < 64; n++){
-            /*console.log(s1(w[n - 2]))
-            console.log(s0(w[n - 15]))
-            console.log(sumaMod2_32(s1(w[n - 2]), w[n - 7]))
-            console.log(sumaMod2_32(sumaMod2_32(s1(w[n - 2]), w[n - 7]), s0(w[n - 15])))
-            console.log('total', sumaMod2_32(sumaMod2_32(sumaMod2_32(s1(w[n - 2]), w[n - 7]), s0(w[n - 15])), w[n - 16]))*/
-            w.push(sumaMod2_32(sumaMod2_32(sumaMod2_32(s1(w[n-2]) , w[n-7]), s0(w[n-15])), w[n-16]))
+            w[n] = sumaMod2_32(sumaMod2_32(sumaMod2_32(s1(w[n-2]) , w[n-7]), s0(w[n-15])), w[n-16])
         }
         
         // inicializando variables de trabajo con valores hash actuales
@@ -268,10 +290,9 @@ function hash(password: string) {
             % c := b
             % b := a
             % a := temp1 + temp2*/
-        
         for (let n = 0; n < 64; n++) {
-            let temp1 = sumaMod2_32(sumaMod2_32(sumaMod2_32(sumaMod2_32(h, s1(e)), ch(e, f, g)), k[n]), w[n]);
-            let temp2 = sumaMod2_32(s0(a), maj(a, b, c));
+            let temp1 = sumaMod2_32(sumaMod2_32(sumaMod2_32(sumaMod2_32(h, S1(e)), ch(e, f, g)), k[n]), w[n]);
+            let temp2 = sumaMod2_32(S0(a), maj(a, b, c));
             h = g;
             g = f;
             f = e;
@@ -298,24 +319,26 @@ function hash(password: string) {
         h5 = sumaMod2_32(h5, f);
         h6 = sumaMod2_32(h6, g);
         h7 = sumaMod2_32(h7, h);
-        console.log('h0', h0)
-        console.log(h0.join(''), h1.join(''), h2.join(''), h3.join(''), h4.join(''), h5.join(''), h6.join(''), h7.join(''))
+        var hashed = parseInt(h0.join(''), 2).toString(16) + 
+            parseInt(h1.join(''), 2).toString(16) + 
+            parseInt(h2.join(''), 2).toString(16) + 
+            parseInt(h3.join(''), 2).toString(16) + 
+            parseInt(h4.join(''), 2).toString(16) + 
+            parseInt(h5.join(''), 2).toString(16) + 
+            parseInt(h6.join(''), 2).toString(16) + 
+            parseInt(h7.join(''), 2).toString(16)
+        return hashed
     }
 }
 
 
 function auth(user: string, password: string){
-    /*var info = bd.find(item => item.user === user)
+    var info = bd.find(item => item.user === user)
     if (info?.password == hash(password)) {
         return true
     } else {
         return false
-    }*/
-    let str = 'Porque de tal manera amo Dios al mundo, que ha dado a su unico Hijo, para que todo aquel que en El cree, no se pierda, sino que tenga vida eterna.'
-    //let str = password
-    hash(str)
-    
-
+    }
 }
 
 export default class LoginService{
