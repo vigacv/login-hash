@@ -102,51 +102,51 @@ export class LoginComponent extends React.Component<{}, LoginState> {
 
     render() {
         return (
-            <Stack style={{ margin: '0 auto' }} tokens={{childrenGap: 30}}>
-                {this.state.isLoading && <Spinner size={SpinnerSize.large} />}
+            <div style={{ margin: '0 auto' }}>
                 <Stack styles={stackStyles} tokens={{ childrenGap: 30 }}>
-                    <Stack>
-                        <Text variant="xxLargePlus">
-                            Login
-                        </Text>
-                    </Stack>
-                    <form onSubmit={this.doLogin}>
-                        <Stack tokens={{ childrenGap: 20 }}>
-                            <StackItem {...columnProps}>
-                                <TextField label="Username"
-                                    name="username"
-                                    onChange={this.handleChange}
-                                    errorMessage={(this.state.error && this.state.username.length == 0) ? "Enter your username" : ""}>
-                                </TextField>
-                            </StackItem>
-                            <StackItem {...columnProps}>
-                                <TextField
-                                    label="Password "
-                                    type="password"
-                                    name="password"
-                                    onChange={this.handleChange}
-                                    errorMessage={(this.state.error && this.state.password.length == 0) ? "Enter your password" : ""}>
-                                </TextField>
-                            </StackItem>
-                        </Stack>
-                        <Stack horizontalAlign="end" styles={{ root: { paddingTop: "30px" } }} horizontal tokens={{ childrenGap: 15 }}>
-                            <StackItem>
-                                <PrimaryButton text="Login" type="submit" allowDisabledFocus styles={{ root: { width: "12rem" } }} />
-                            </StackItem>
-                        </Stack>
-                    </form>
-                    <Snackbar open={this.state.openSuccess} onClose={this.handleSuccessClose}>
-                        <Alert severity="success" sx={{ width: '100%' }}>
-                            Login successfull!
-                        </Alert>
-                    </Snackbar>
-                    <Snackbar open={this.state.openError} onClose={this.handleErrorClose}>
-                        <Alert severity="error" sx={{ width: '100%' }}>
-                            Username or password incorrect
-                        </Alert>
-                    </Snackbar>
+                <Stack>
+                    <Text variant="xxLargePlus">
+                        Login
+                    </Text>
                 </Stack>
+                <form onSubmit={this.doLogin}>
+                    <Stack tokens={{ childrenGap: 20 }}>
+                        <StackItem {...columnProps}>
+                            <TextField label="Username"
+                                name="username"
+                                onChange={this.handleChange}
+                                errorMessage={(this.state.error && this.state.username.length == 0) ? "Enter your username" : ""}>
+                            </TextField>
+                        </StackItem>
+                        <StackItem {...columnProps}>
+                            <TextField
+                                label="Password "
+                                type="password"
+                                name="password"
+                                onChange={this.handleChange}
+                                errorMessage={(this.state.error && this.state.password.length == 0) ? "Enter your password" : ""}>
+                            </TextField>
+                        </StackItem>
+                    </Stack>
+                    <Stack horizontalAlign="end" styles={{ root: { paddingTop: "30px" } }} horizontal tokens={{ childrenGap: 15 }}>
+                        {this.state.isLoading && <Spinner size={SpinnerSize.large} />}
+                        <StackItem>
+                            <PrimaryButton text="Login" type="submit" allowDisabledFocus styles={{ root: { width: "12rem" } }} />
+                        </StackItem>
+                    </Stack>
+                </form>
+                <Snackbar open={this.state.openSuccess} onClose={this.handleSuccessClose}>
+                    <Alert severity="success" sx={{ width: '100%' }}>
+                        Login successfull!
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={this.state.openError} onClose={this.handleErrorClose}>
+                    <Alert severity="error" sx={{ width: '100%' }}>
+                        Username or password incorrect
+                    </Alert>
+                </Snackbar>
             </Stack>
+            </div>
         )
     }
 }

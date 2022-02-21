@@ -347,11 +347,13 @@ function auth(user: string, password: string){
 export default class LoginService{
     login(username: string, password: string): Promise<boolean>{
         return new Promise((resolve, reject) => {
-            if (auth(username, password)) {
-                resolve(true);
-            }else{
-                reject(false);
-            }
+            setTimeout(() =>{
+                if (auth(username, password)) {
+                    resolve(true);
+                }else{
+                    reject(false);
+                }
+            }, 1000)
         });
     }
 }
