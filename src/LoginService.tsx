@@ -5,82 +5,7 @@ var bd = [{ user: "admin", password: "8c6976e5b5410415bde908bd4dee15dfb167a9c873
     { user: "prueba2", password: "92573009c9ed328bd9d47d7187e01eb0abe4b995fb6abe0724b4f53bed590264" }]
  
     
-// VALORES HASH
-let h0 = hexToBinary('6a09e667', 32);
-let h1 = hexToBinary('bb67ae85', 32);
-let h2 = hexToBinary('3c6ef372', 32);
-let h3 = hexToBinary('a54ff53a', 32);
-let h4 = hexToBinary('510e527f', 32);
-let h5 = hexToBinary('9b05688c', 32);
-let h6 = hexToBinary('1f83d9ab', 32);
-let h7 = hexToBinary('5be0cd19', 32);
 
-// INICIALIZAR CONSTANTES K
-let k = [] as string[][]
-k.push(hexToBinary('428a2f98', 32))
-k.push(hexToBinary('71374491', 32))
-k.push(hexToBinary('b5c0fbcf', 32))
-k.push(hexToBinary('e9b5dba5', 32))
-k.push(hexToBinary('3956c25b', 32))
-k.push(hexToBinary('59f111f1', 32))
-k.push(hexToBinary('923f82a4', 32))
-k.push(hexToBinary('ab1c5ed5', 32))
-k.push(hexToBinary('d807aa98', 32))
-k.push(hexToBinary('12835b01', 32))
-k.push(hexToBinary('243185be', 32))
-k.push(hexToBinary('550c7dc3', 32))
-k.push(hexToBinary('72be5d74', 32))
-k.push(hexToBinary('80deb1fe', 32))
-k.push(hexToBinary('9bdc06a7', 32))
-k.push(hexToBinary('c19bf174', 32))
-k.push(hexToBinary('e49b69c1', 32))
-k.push(hexToBinary('efbe4786', 32))
-k.push(hexToBinary('0fc19dc6', 32))
-k.push(hexToBinary('240ca1cc', 32))
-k.push(hexToBinary('2de92c6f', 32))
-k.push(hexToBinary('4a7484aa', 32))
-k.push(hexToBinary('5cb0a9dc', 32))
-k.push(hexToBinary('76f988da', 32))
-k.push(hexToBinary('983e5152', 32))
-k.push(hexToBinary('a831c66d', 32))
-k.push(hexToBinary('b00327c8', 32))
-k.push(hexToBinary('bf597fc7', 32))
-k.push(hexToBinary('c6e00bf3', 32))
-k.push(hexToBinary('d5a79147', 32))
-k.push(hexToBinary('06ca6351', 32))
-k.push(hexToBinary('14292967', 32))
-k.push(hexToBinary('27b70a85', 32))
-k.push(hexToBinary('2e1b2138', 32))
-k.push(hexToBinary('4d2c6dfc', 32))
-k.push(hexToBinary('53380d13', 32))
-k.push(hexToBinary('650a7354', 32))
-k.push(hexToBinary('766a0abb', 32))
-k.push(hexToBinary('81c2c92e', 32))
-k.push(hexToBinary('92722c85', 32))
-k.push(hexToBinary('a2bfe8a1', 32))
-k.push(hexToBinary('a81a664b', 32))
-k.push(hexToBinary('c24b8b70', 32))
-k.push(hexToBinary('c76c51a3', 32))
-k.push(hexToBinary('d192e819', 32))
-k.push(hexToBinary('d6990624', 32))
-k.push(hexToBinary('f40e3585', 32))
-k.push(hexToBinary('106aa070', 32))
-k.push(hexToBinary('19a4c116', 32))
-k.push(hexToBinary('1e376c08', 32))
-k.push(hexToBinary('2748774c', 32))
-k.push(hexToBinary('34b0bcb5', 32))
-k.push(hexToBinary('391c0cb3', 32))
-k.push(hexToBinary('4ed8aa4a', 32))
-k.push(hexToBinary('5b9cca4f', 32))
-k.push(hexToBinary('682e6ff3', 32))
-k.push(hexToBinary('748f82ee', 32))
-k.push(hexToBinary('78a5636f', 32))
-k.push(hexToBinary('84c87814', 32))
-k.push(hexToBinary('8cc70208', 32))
-k.push(hexToBinary('90befffa', 32))
-k.push(hexToBinary('a4506ceb', 32))
-k.push(hexToBinary('bef9a3f7', 32))
-k.push(hexToBinary('c67178f2', 32))
 
 function stringToBinary(string: string) { // Devuelve array de 8*(nro. de caracteres)
     var binaryString = "" // Cadena en binario, todo junto
@@ -223,6 +148,83 @@ function zeros(filas: number, columnas: number) {
 }
 
 function hash(password: string) {
+
+    // VALORES HASH
+    let h0 = hexToBinary('6a09e667', 32);
+    let h1 = hexToBinary('bb67ae85', 32);
+    let h2 = hexToBinary('3c6ef372', 32);
+    let h3 = hexToBinary('a54ff53a', 32);
+    let h4 = hexToBinary('510e527f', 32);
+    let h5 = hexToBinary('9b05688c', 32);
+    let h6 = hexToBinary('1f83d9ab', 32);
+    let h7 = hexToBinary('5be0cd19', 32);
+
+    // INICIALIZAR CONSTANTES K
+    let k = [] as string[][]
+    k.push(hexToBinary('428a2f98', 32))
+    k.push(hexToBinary('71374491', 32))
+    k.push(hexToBinary('b5c0fbcf', 32))
+    k.push(hexToBinary('e9b5dba5', 32))
+    k.push(hexToBinary('3956c25b', 32))
+    k.push(hexToBinary('59f111f1', 32))
+    k.push(hexToBinary('923f82a4', 32))
+    k.push(hexToBinary('ab1c5ed5', 32))
+    k.push(hexToBinary('d807aa98', 32))
+    k.push(hexToBinary('12835b01', 32))
+    k.push(hexToBinary('243185be', 32))
+    k.push(hexToBinary('550c7dc3', 32))
+    k.push(hexToBinary('72be5d74', 32))
+    k.push(hexToBinary('80deb1fe', 32))
+    k.push(hexToBinary('9bdc06a7', 32))
+    k.push(hexToBinary('c19bf174', 32))
+    k.push(hexToBinary('e49b69c1', 32))
+    k.push(hexToBinary('efbe4786', 32))
+    k.push(hexToBinary('0fc19dc6', 32))
+    k.push(hexToBinary('240ca1cc', 32))
+    k.push(hexToBinary('2de92c6f', 32))
+    k.push(hexToBinary('4a7484aa', 32))
+    k.push(hexToBinary('5cb0a9dc', 32))
+    k.push(hexToBinary('76f988da', 32))
+    k.push(hexToBinary('983e5152', 32))
+    k.push(hexToBinary('a831c66d', 32))
+    k.push(hexToBinary('b00327c8', 32))
+    k.push(hexToBinary('bf597fc7', 32))
+    k.push(hexToBinary('c6e00bf3', 32))
+    k.push(hexToBinary('d5a79147', 32))
+    k.push(hexToBinary('06ca6351', 32))
+    k.push(hexToBinary('14292967', 32))
+    k.push(hexToBinary('27b70a85', 32))
+    k.push(hexToBinary('2e1b2138', 32))
+    k.push(hexToBinary('4d2c6dfc', 32))
+    k.push(hexToBinary('53380d13', 32))
+    k.push(hexToBinary('650a7354', 32))
+    k.push(hexToBinary('766a0abb', 32))
+    k.push(hexToBinary('81c2c92e', 32))
+    k.push(hexToBinary('92722c85', 32))
+    k.push(hexToBinary('a2bfe8a1', 32))
+    k.push(hexToBinary('a81a664b', 32))
+    k.push(hexToBinary('c24b8b70', 32))
+    k.push(hexToBinary('c76c51a3', 32))
+    k.push(hexToBinary('d192e819', 32))
+    k.push(hexToBinary('d6990624', 32))
+    k.push(hexToBinary('f40e3585', 32))
+    k.push(hexToBinary('106aa070', 32))
+    k.push(hexToBinary('19a4c116', 32))
+    k.push(hexToBinary('1e376c08', 32))
+    k.push(hexToBinary('2748774c', 32))
+    k.push(hexToBinary('34b0bcb5', 32))
+    k.push(hexToBinary('391c0cb3', 32))
+    k.push(hexToBinary('4ed8aa4a', 32))
+    k.push(hexToBinary('5b9cca4f', 32))
+    k.push(hexToBinary('682e6ff3', 32))
+    k.push(hexToBinary('748f82ee', 32))
+    k.push(hexToBinary('78a5636f', 32))
+    k.push(hexToBinary('84c87814', 32))
+    k.push(hexToBinary('8cc70208', 32))
+    k.push(hexToBinary('90befffa', 32))
+    k.push(hexToBinary('a4506ceb', 32))
+    k.push(hexToBinary('bef9a3f7', 32))
+    k.push(hexToBinary('c67178f2', 32))
     // CONVERTIMOS CADENA PASSWORD A BINARIO
     let pwdBinaryVector = stringToBinary(password)
 
@@ -327,6 +329,7 @@ function hash(password: string) {
             parseInt(h5.join(''), 2).toString(16) + 
             parseInt(h6.join(''), 2).toString(16) + 
             parseInt(h7.join(''), 2).toString(16)
+        console.log(password, ' -> ', hashed)
         return hashed
     }
 }
@@ -344,8 +347,7 @@ function auth(user: string, password: string){
 export default class LoginService{
     login(username: string, password: string): Promise<boolean>{
         return new Promise((resolve, reject) => {
-            auth(username, password)
-            if (true) {
+            if (auth(username, password)) {
                 resolve(true);
             }else{
                 reject(false);
