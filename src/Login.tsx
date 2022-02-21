@@ -112,14 +112,14 @@ export class LoginComponent extends React.Component<{}, LoginState> {
                     </Stack>
                     <form onSubmit={this.doLogin}>
                         <Stack tokens={{ childrenGap: 20 }}>
-                            <StackItem {...columnProps}>
+                            <StackItem className="login-text-field">
                                 <TextField label="Username"
                                     name="username"
                                     onChange={this.handleChange}
                                     errorMessage={(this.state.error && this.state.username.length == 0) ? "Enter your username" : ""}>
                                 </TextField>
                             </StackItem>
-                            <StackItem {...columnProps}>
+                            <StackItem className="login-text-field">
                                 <TextField
                                     label="Password "
                                     type="password"
