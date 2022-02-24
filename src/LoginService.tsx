@@ -1,12 +1,7 @@
-var sha256 = require('js-sha256');
-
 var bd = [{ user: "admin", password: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" },
     { user: "prueba1", password: "ef994e7262a78b97c039adf58214ee7df1076824a7e47538948ba61ae02b05c7" },
     { user: "prueba2", password: "92573009c9ed328bd9d47d7187e01eb0abe4b995fb6abe0724b4f53bed590264" }]
  
-    
-
-
 function stringToBinary(string: string) { // Devuelve array de 8*(nro. de caracteres)
     var binaryString = "" // Cadena en binario, todo junto
     for (var i = 0; i < string.length; i++) {
@@ -21,7 +16,7 @@ function intToBinary(int: number, size: number) { // Devuelve array de "size" ca
     let completeBinaryString = '0'.repeat(size - bin.length) + bin
     return completeBinaryString.split("")
 }
-
+gi
 function addedZeros(n: number, binaryVector: Array<string>) {
     let array_zeros = []
     for (let i = 0; i < n; i++) {
@@ -86,15 +81,6 @@ function xor(arr1: Array<string>, arr2: Array<string>) {
     return res
 }
 
-function not(arr: Array<string>) {
-    let res = []
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === '0') res.push('1')
-        else res.push('0')
-    }
-    return res
-}
-
 function and(arr1: Array<string>, arr2: Array<string>) {
     let res = []
     for (let i = 0; i < arr1.length; i++) {
@@ -104,11 +90,20 @@ function and(arr1: Array<string>, arr2: Array<string>) {
     return res
 }
 
-function s0(x: Array<string>) { // función sigma s0
+function not(arr: Array<string>) {
+    let res = []
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === '0') res.push('1')
+        else res.push('0')
+    }
+    return res
+}
+
+function s0(x: Array<string>) { // función sumatorio sigma s0
     return xor(xor(circShift(x, 7), circShift(x, 18)), rightShift(x, 3));
 }
 
-function s1(x: Array<string>) { // función sigma s1
+function s1(x: Array<string>) { // función sumatorio sigma s1
     return xor(xor(circShift(x, 17), circShift(x, 19)), rightShift(x, 10));
 }
 
@@ -147,7 +142,7 @@ function zeros(filas: number, columnas: number) {
     return a
 }
 
-function hash(password: string) {
+function hash(user: string, password: string) {
 
     // VALORES HASH
     let h0 = hexToBinary('6a09e667', 32);
@@ -258,10 +253,6 @@ function hash(password: string) {
                 w[n][m] = splittedBinaryVector[i][p]
             }
         }
-
-        /*splitBinaryVector(splittedBinaryVector[i], 32).forEach(element => {
-            w.push(element)
-        });*/
         // para las siguientes 48 filas (n = 17..64): w[n] = s1(w[n-2]) + w[n-7] + s0(w[n-15]) + w[n-16]
         // donde la suma "+" es en realidad suma de módulo 2^32:
         // w(n,: ) = sumaMod2_32(sumaMod2_32( sumaMod2_32( s1(w(n - 2,: ) ), w(n - 7,: ) ), s0(w(n - 15,: ))), w(n - 16,: ))
@@ -321,23 +312,26 @@ function hash(password: string) {
         h5 = sumaMod2_32(h5, f);
         h6 = sumaMod2_32(h6, g);
         h7 = sumaMod2_32(h7, h);
-        var hashed = parseInt(h0.join(''), 2).toString(16) + 
-            parseInt(h1.join(''), 2).toString(16) + 
-            parseInt(h2.join(''), 2).toString(16) + 
-            parseInt(h3.join(''), 2).toString(16) + 
-            parseInt(h4.join(''), 2).toString(16) + 
-            parseInt(h5.join(''), 2).toString(16) + 
-            parseInt(h6.join(''), 2).toString(16) + 
-            parseInt(h7.join(''), 2).toString(16)
-        console.log(password, ' -> ', hashed)
-        return hashed
     }
+    var hashed = parseInt(h0.join(''), 2).toString(16) +
+        parseInt(h1.join(''), 2).toString(16) +
+        parseInt(h2.join(''), 2).toString(16) +
+        parseInt(h3.join(''), 2).toString(16) +
+        parseInt(h4.join(''), 2).toString(16) +
+        parseInt(h5.join(''), 2).toString(16) +
+        parseInt(h6.join(''), 2).toString(16) +
+        parseInt(h7.join(''), 2).toString(16)
+    console.log(
+        ' user: ', user, '\n',
+        'password: ', password, '\n',
+        'hashed password: ', hashed)
+    return hashed
 }
 
 
 function auth(user: string, password: string){
     var info = bd.find(item => item.user === user)
-    if (info?.password == hash(password)) {
+    if (info?.password === hash(user, password)) {
         return true
     } else {
         return false
